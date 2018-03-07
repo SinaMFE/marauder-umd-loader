@@ -1,6 +1,6 @@
 {
   "name": "marauder-umd-loader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "用于处理marauder体系下的umd调用方式.",
   "main": "dist/index.js",
   "files": [
@@ -48,13 +48,8 @@
   },
   "scripts": {
     "start": "npm run build -- -w",
-    "appveyor:test": "npm run test",
-    "build": "cross-env NODE_ENV=production babel src -d dist --ignore 'src/**/*.test.js' --copy-files",
+    "build": "cross-env NODE_ENV=production babel src -d dist",
     "clean": "del-cli dist",
-    "prepare": "npm run build",
-    "prebuild": "npm run clean",
-    "release": "standard-version",
-    "security": "nsp check",
     "webpack-defaults": "webpack-defaults"
   }
 }
