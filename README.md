@@ -21,8 +21,15 @@ npm i marauder-umd-loader --save
 
 **不需要在webpackconfig中配置**
 ```js
-import  "marauder-umd-loader!@mfelibs/base-tools-SUDA";
+import    "marauder-umd-loader?inject=body&onlineUrl=http://mjs.sina.cn/suda.js!@mfelibs/base-tools-SUDA";
 ```
+
+**参数**
+
+inject:body||head
+
+onlineUrl:url
+
 
 [npm]: https://img.shields.io/npm/v/marauder-umd-loader.svg
 [npm-url]: https://npmjs.com/package/marauder-umd-loader
