@@ -18,19 +18,19 @@ export default function loader(source) {
     const options = loaderUtils.getOptions(this) || {};
     var pj = getPackageJson(contextPath);
     var inject = options.inject||"body";
-    if (me._compilation["umdPath"] == null) {
-        me._compilation["umdPath"] = {
+    if (me._compilation.compiler["umdPath"] == null) {
+        me._compilation.compiler["umdPath"] = {
             body:{},head:{}
         };
     }
     if(options.onlineUrl!=null){
-        me._compilation["umdPath"][inject][options.onlineUrl] = {
+        me._compilation.compiler["umdPath"][inject][options.onlineUrl] = {
             entry: options.onlineUrl
         };
     }
     else if (pj.name.indexOf("@mfelibs") >= 0) {
         var moduleName = pj.name.split("/")[1];
-        me._compilation["umdPath"][inject][moduleName] = {
+        me._compilation.compiler["umdPath"][inject][moduleName] = {
             entry: "https://mjs.sinaimg.cn/umd/" + moduleName + "/" + pj.version + "/index.all.min.js"
         };
     } else {
