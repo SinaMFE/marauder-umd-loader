@@ -31,6 +31,10 @@ inject:body||head
 onlineUrl:url
 
 
+## 缺点
+
+需要引入module bus，必须遵循cmd原则，但是如果onlineUrl存在的情况下直接引入onlineUrl，而不去找module
+
 [npm]: https://img.shields.io/npm/v/marauder-umd-loader.svg
 [npm-url]: https://npmjs.com/package/marauder-umd-loader
 
