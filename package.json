@@ -1,6 +1,6 @@
 {
   "name": "marauder-umd-loader",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "用于处理marauder体系下的umd调用方式.",
   "main": "dist/index.js",
   "files": [
