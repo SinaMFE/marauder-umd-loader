@@ -49,38 +49,58 @@ function loader(source) {
     this._compiler.options.injectLink = [];
   }
 
+  //Remove duplicate
+  for (let link of this._compiler.options.injectLink) {
+    if (link.onlineUrl == onlineUrl) {
+      return "";
+    }
+  }
+
+  //Inspect our umd file's version
+  //judge is this match sina umd component
+  if (/mjs.sinaimg.cn\/umd/.test(onlineUrl)) {
+    let options = this._compiler.options;
+    if (!options.injectLinkComponent) {
+      options.injectLinkComponent = [];
+    }
+
+    let [full, name, version] = onlineUrl.match(
+      /mjs.sinaimg.cn\/umd\/([\w-]*)\/([\w-.]*)\//
+    );
+
+    //a sian umd component must only have one version
+    for (let component of options.injectLinkComponent) {
+      if (name == component.name) {
+        if (version != component.version) {
+          console.error(
+            `\n 引用了umd组件${name}的不同版本：\n ${onlineUrl} \n ${
+              component.onlineUrl
+            },\n 该组件将不被模版html引用，请整理依赖!`
+          );
+          options.injectLink = options.injectLink.filter(link => {
+            if (link.onlineUrl == component.onlineUrl) {
+              return false;
+            }
+            return true;
+          });
+        }
+        return "";
+      }
+    }
+
+    options.injectLinkComponent.push({
+      name,
+      version,
+      onlineUrl
+    });
+  }
+
+  //Set the link into compiler's option
   this._compiler.options.injectLink.push({
     type,
     inject,
     onlineUrl
   });
 
-  //   var contextPath = this.context;
-  //   var pj = getPackageJson(contextPath);
-  //   var inject = options.inject || "body";
-
-  //   if (me._compilation.compiler["umdPath"] == null) {
-  //     me._compilation.compiler["umdPath"] = {
-  //       body: {},
-  //       head: {}
-  //     };
-  //   }
-  //   if (options.onlineUrl != null) {
-  //     me._compilation.compiler["umdPath"][inject][options.onlineUrl] = {
-  //       entry: options.onlineUrl
-  //     };
-  //   } else if (pj.name.indexOf("@mfelibs") >= 0) {
-  //     var moduleName = pj.name.split("/")[1];
-  //     me._compilation.compiler["umdPath"][inject][moduleName] = {
-  //       entry:
-  //         "https://mjs.sinaimg.cn/umd/" +
-  //         moduleName +
-  //         "/" +
-  //         pj.version +
-  //         "/index.all.min.js"
-  //     };
-  //   } else {
-  //     throw "不支持非@mfelibs域下的组件";
-  //   }
   return "";
 }
